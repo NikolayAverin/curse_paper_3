@@ -32,6 +32,3 @@ def print_user_operations():
         user_operation.format_date()
     for user_operation in user_operations:
         user_operation.print_info()
-
-# print_user_operations()
-print_user_operations()
