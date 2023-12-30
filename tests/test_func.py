@@ -1,4 +1,4 @@
-from src.func import get_user_operations
+from src.func import *
 
 
 def test_get_user_operations():
