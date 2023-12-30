@@ -1,23 +1,28 @@
 import json
 from src.classes import *
 from config import *
+from operator import itemgetter
 
 
 def get_user_operations():
-    """функция, получающая пять успешных операции пользователя из json файла"""
+    """функция, получающая пять последних успешных операции пользователя из json файла"""
     with open(OPERATIONS, encoding="utf-8") as file:
         json_user_operations = file.read()
     dict_user_operations = json.loads(json_user_operations)
+    sort_dict_user_operations = sorted(dict_user_operations, key=itemgetter('date'), reverse=True)
+    executed_sort_dict_user_operations = []
+    for sort_dict_user_operation in sort_dict_user_operations:
+        if sort_dict_user_operation['state'] == 'EXECUTED':
+            executed_sort_dict_user_operations.append(sort_dict_user_operation)
     user_operations = []
     for i in range(5):
-        if dict_user_operations[i]['state'] == 'EXECUTED':
-            if 'from' not in dict_user_operations[i].keys():
-                dict_user_operations[i]['from'] = ""
-            user_operations.append(Operation(dict_user_operations[i]['date'], dict_user_operations[i]['description'],
-                                             dict_user_operations[i]['from'], dict_user_operations[i]['to'],
-                                             dict_user_operations[i]['operationAmount']['amount'],
-                                             dict_user_operations[i]['operationAmount']['currency']['name']))
-            i += 1
+        if 'from' not in sort_dict_user_operations[i].keys():
+            sort_dict_user_operations[i]['from'] = ""
+        user_operations.append(
+            Operation(sort_dict_user_operations[i]['date'], sort_dict_user_operations[i]['description'],
+                      sort_dict_user_operations[i]['from'], sort_dict_user_operations[i]['to'],
+                      sort_dict_user_operations[i]['operationAmount']['amount'],
+                      sort_dict_user_operations[i]['operationAmount']['currency']['name']))
     return user_operations
 
 
