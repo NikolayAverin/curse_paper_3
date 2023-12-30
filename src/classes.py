@@ -36,9 +36,8 @@ class Operation:
         """Переводим дату в необходимый формат"""
         format_data = date.fromisoformat(self.date[:10])
         self.date = format_data.strftime("%d.%m.%Y")
+        return self.date
 
     def print_info(self):
-        """Выводим информацию об оперции"""
-        print(f"{self.date} {self.description}\n"
-              f"{self.where_from} -> {self.to}\n"
-              f"{self.amount} {self.name}\n")
+        """Возвращаем информацию об оперции"""
+        return f"{self.date} {self.description}\n{self.where_from} -> {self.to}\n{self.amount} {self.name}\n"
